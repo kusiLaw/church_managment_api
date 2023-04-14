@@ -14,11 +14,11 @@ class Member(models.Model):
   date_baptized = models.DateField(blank= True)
   image = models.ImageField(max_length=100, upload_to=image_path, null=True, blank= True )
 
-
   def __str__(self) -> str:
     return f'{self.user.first_name}  {self.user.last_name}'
   
-  def get_full_name(self):
+  @property 
+  def full_name(self):
     return self.__str__
   
   def has_full_membership(self) -> bool:
@@ -28,3 +28,6 @@ class Member(models.Model):
       permission  
     '''
     return self.date_baptized != None
+
+class Dues_Register(models.Model):
+  type= models.CharField(max_length=45, unique= True)
