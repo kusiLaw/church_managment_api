@@ -31,3 +31,10 @@ class Member(models.Model):
 
 class Dues_Register(models.Model):
   type= models.CharField(max_length=45, unique= True)
+
+
+class Dues(models.Model):
+  member = models.ForeignKey(Member, on_delete= models.CASCADE)
+  dues = models.ForeignKey(Dues_Register, on_delete=models.CASCADE)
+  amount = models.DecimalField( max_digits=5, decimal_places=2)
+  date = models.DateField( auto_now=False, auto_now_add=False)
