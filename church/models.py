@@ -2,9 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 
-def image_path(instance, filename):
-  return 'church/profile/'.format(instance.user.username, filename)
-
 class Member(models.Model):
   user = models.OneToOneField(User, on_delete=models.CASCADE)
   number = models.CharField(max_length=20, blank=True)
@@ -31,12 +28,21 @@ class Member(models.Model):
     '''
     return self.date_baptized != None
 
-class Dues_Register(models.Model):
-  type= models.CharField(max_length=45, unique= True)
-
-
 class Dues(models.Model):
+  name= models.CharField(max_length=45, unique= True)
+
+class Payment(models.Model):
   member = models.ForeignKey(Member, on_delete= models.CASCADE)
-  dues = models.ForeignKey(Dues_Register, on_delete=models.CASCADE)
+  dues = models.ForeignKey(Dues, on_delete=models.CASCADE)
   amount = models.DecimalField( max_digits=5, decimal_places=2)
   date = models.DateField( auto_now=False, auto_now_add=False)
+
+
+class Department(models.Model):
+  name = models.CharField(max_length=255)
+
+class Leader(models.Model):
+  member = models.ForeignKey(Member, on_delete=models.CASCADE)
+  department = models.ForeignKey(Department, on_delete=models.CASCADE)
+  start_date = models.DateField()
+  end_date = models.DateField()
