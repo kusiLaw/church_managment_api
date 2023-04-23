@@ -2,6 +2,19 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 
+class Common(models.Model):
+  name = models.CharField(max_length=64, unique= True)
+  
+  class Meta:
+    abstract = True
+    ordering = ['name']
+    indexes = [
+      models.Index(fields=['name'])
+    ]
+
+  def __str__(self) -> str:
+    return self.name
+
 class Member(models.Model):
   user = models.OneToOneField(User, on_delete=models.CASCADE)
   number = models.CharField(max_length=20, blank=True)
@@ -28,8 +41,8 @@ class Member(models.Model):
     '''
     return self.date_baptized != None
 
-class Dues(models.Model):
-  name= models.CharField(max_length=45, unique= True)
+class Dues(Common):
+  pass
 
 class Payment(models.Model):
   member = models.ForeignKey(Member, on_delete= models.CASCADE)
@@ -38,8 +51,8 @@ class Payment(models.Model):
   date = models.DateField( auto_now=False, auto_now_add=False)
 
 
-class Department(models.Model):
-  name = models.CharField(max_length=255)
+class Department(Common):
+  pass
 
 class Leader(models.Model):
   member = models.ForeignKey(Member, on_delete=models.CASCADE)
