@@ -1,5 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+from .manager import CustomUserManager
+import os
+
 # Create your models here.
 
 class Common(models.Model):
@@ -15,24 +18,40 @@ class Common(models.Model):
   def __str__(self) -> str:
     return self.name
 
-class Member(models.Model):
+
+
+class User(AbstractUser):
+  email = models.EmailField(unique=True)
+  first_name = models.CharField(max_length=32, null=False, blank=False)
+  last_name = models.CharField(max_length=32, null=False, blank=False)
+
+  class Meta:
+        db_table = 'auth_user'
+
+  @property
+  def full_name(self):
+    return f'{self.first_name} {self.last_name}'
+
+
+def profile_path(self, filename):
+  return f'church/static/profile/{self.user.username}/{filename}'
+
+class Membership(models.Model):
   user = models.OneToOneField(User, on_delete=models.CASCADE)
-  number = models.CharField(max_length=20, blank=True)
-  occupation = models.CharField(max_length=45, blank=True)
+  number = models.CharField(max_length=20, blank=True, null=True)
+  occupation = models.CharField(max_length=45, blank=True, null=True)
   postal_code = models.CharField(max_length=20 )
   address_line = models.CharField(max_length=25)
-  date_baptized = models.DateField(blank= True)
+  date_baptized = models.DateField(blank= True, help_text='Date Object. Helps to determined if a user is \
+                                    considered as member of the church ')
   image = models.ImageField(max_length=100, 
-                  upload_to= lambda self, filename : f'file/{self.user.first_name}/{filename}',
+                  upload_to= profile_path,
                   null=True, blank= True )
 
   def __str__(self) -> str:
     return f'{self.user.first_name}  {self.user.last_name}'
-  
-  @property 
-  def full_name(self):
-    return self.__str__
-  
+
+ 
   def has_full_membership(self) -> bool:
     '''
       Return True if a member is baptized.
@@ -41,11 +60,12 @@ class Member(models.Model):
     '''
     return self.date_baptized != None
 
+
 class Dues(Common):
   pass
 
 class Payment(models.Model):
-  member = models.ForeignKey(Member, on_delete= models.CASCADE)
+  member = models.ForeignKey(Membership, on_delete= models.CASCADE)
   dues = models.ForeignKey(Dues, on_delete=models.CASCADE)
   amount = models.DecimalField( max_digits=5, decimal_places=2)
   date = models.DateField( auto_now=False, auto_now_add=False)
@@ -54,8 +74,11 @@ class Payment(models.Model):
 class Department(Common):
   pass
 
-class Leader(models.Model):
-  member = models.ForeignKey(Member, on_delete=models.CASCADE)
+class Leadership(models.Model):
+  '''
+      only member who are primarily baptized get leadership position
+  '''
+  member = models.ForeignKey(Membership, on_delete=models.CASCADE)
   department = models.ForeignKey(Department, on_delete=models.CASCADE)
   start_date = models.DateField()
   end_date = models.DateField()
