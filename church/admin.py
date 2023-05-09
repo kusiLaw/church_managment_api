@@ -1,4 +1,8 @@
 from django.contrib import admin
-from .models import Member
+from .models import Membership,User
+from django.contrib.auth.admin import UserAdmin
+
+
+admin.site.register(User, UserAdmin)
 # Register your models here.
-admin.site.register(Member)
+admin.site.register(Membership)
