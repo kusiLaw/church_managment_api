@@ -63,5 +63,15 @@ class MembershipTest(TestCase):
     member = self.setup()
     self.assertEqual(member.date_baptized.date(),  timezone.now().date())
     self.assertEqual(member.number, "0742588635543")
-    
+
+  def test_create_membership_with_date_baptized_set_to_future(self):
+    '''
+      User can not have Membership with date baptized set to future 
+    '''
+
+    try:
+      # set date_baptized 1 day ahead 
+      self.setup(date_baptized = timezone.now() + datetime.timedelta(days = 1))
+    except ValueError as e:
+      self.assertEqual(str(e), 'Baptized date cant be in future') 
 
