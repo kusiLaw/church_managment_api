@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from .manager import CustomUserManager
-import os
+from django.utils import timezone
+from datetime import datetime
+from django.utils import timezone
 
 # Create your models here.
 
@@ -42,7 +44,7 @@ class Membership(models.Model):
   occupation = models.CharField(max_length=45, blank=True, null=True)
   postal_code = models.CharField(max_length=20 )
   address_line = models.CharField(max_length=25)
-  date_baptized = models.DateField(blank= True, help_text='Date Object. Helps to determined if a user is \
+  date_baptized = models.DateField(blank= True, null=True, help_text='Date Object. Helps to determined if a user is \
                                     considered as member of the church ')
   image = models.ImageField(max_length=100, 
                   upload_to= profile_path,
@@ -59,6 +61,12 @@ class Membership(models.Model):
       permission  
     '''
     return self.date_baptized != None
+
+  def save(self, *args, **kwargs):
+
+    if isinstance(self.date_baptized, datetime) and self.date_baptized > timezone.now():
+      raise ValueError('Baptized date cant be in future')
+    super(Membership, self).save(*args, **kwargs)
 
 
 class Dues(Common):
