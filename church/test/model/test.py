@@ -75,3 +75,18 @@ class MembershipTest(TestCase):
     except ValueError as e:
       self.assertEqual(str(e), 'Baptized date cant be in future') 
 
+  def test_create_membership_without_baptized_date(self):
+    '''
+      User can have Membership without baptized date 
+    '''
+    member = self.setup(date_baptized = None)
+    self.assertEqual(member.number, "0742588635543")
+    self.assertEqual(member.postal_code, "mk4 6ny")
+    
+  def test_has_full_membership_with_no_baptized_date(self):
+    '''
+        A User with no baptized date is not a full member
+    '''
+    member = self.setup(date_baptized = None)
+
+    self.assertFalse(member.has_full_membership())
