@@ -90,3 +90,11 @@ class MembershipTest(TestCase):
     member = self.setup(date_baptized = None)
 
     self.assertFalse(member.has_full_membership())
+
+  def test_create_membership_without_baptized_date(self):
+    '''
+      User can have Membership without baptized date 
+    '''
+    member = self.setup(date_baptized = None)
+    self.assertEqual(member.number, "0742588635543")
+    self.assertEqual(member.postal_code, "mk4 6ny")
