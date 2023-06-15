@@ -20,8 +20,6 @@ class Common(models.Model):
   def __str__(self) -> str:
     return self.name
 
-
-
 class User(AbstractUser):
   email = models.EmailField(unique=True)
   first_name = models.CharField(max_length=32, null=False, blank=False)
@@ -90,3 +88,17 @@ class Leadership(models.Model):
   department = models.ForeignKey(Department, on_delete=models.CASCADE)
   start_date = models.DateField()
   end_date = models.DateField()
+
+
+class Event(models.Model):
+  title = models.CharField(max_length=100)
+  theme = models.CharField(max_length=100, null=True, blank=True)
+  image =models.ImageField(max_length=100, upload_to= 'church/static/events/')
+  description = models.TextField()
+  start_date = models.DateField()
+  end_date = models.DateField()
+  created_at = models.DateField(auto_now_add=True)
+  location = models.CharField(max_length=100)
+  speaker = models.CharField(max_length=100)
+  guss_speaker = models.CharField(max_length=100)
+  
