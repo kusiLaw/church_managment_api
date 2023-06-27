@@ -1,12 +1,10 @@
 from rest_framework import serializers
-from church.models import User
+from church.models import User, Event
 
-class UserSerializer(serializers.ModelSerializer):
-  id = serializers.IntegerField(read_only=True)
-  first_name = serializers.CharField()
-  last_name = serializers.EmailField()
-  email = serializers.EmailField()
 
+class EventSerializer(serializers.ModelSerializer):
+  # id = serializers.IntegerField(read_only=True)
   class Meta:
-    model = User
-    fields = ('id', 'first_name', 'last_name', 'email')
+    model = Event
+    fields = '__all__'
+    # exclude = ['id']

@@ -1,20 +1,28 @@
-from church.models import User
-from .serializers import UserSerializer
+from church.models import User, Event
+from .serializers import  EventSerializer
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 
-@api_view()
-def users(request):
-  users = User.objects.all()
-  users =  UserSerializer(users, many=True).data
-  return Response(users)
-
-
-@api_view()
-def user_detail(request, pk):
-  try:
-    user = User.objects.get(pk=pk)
-    serializer = UserSerializer(user)
+class EventsList(APIView):
+  '''
+    view all events
+  '''
+  def get(self, request):
+    events = Event.objects.all()
+    serializer = EventSerializer(events, many=True, context={'request': request})
     return Response(serializer.data)
-  except User.DoesNotExist:
-    return Response(status='not found')
+  
+  def post(self, request):
+    serializer = EventSerializer(data=request.data)
+    if serializer.is_valid():
+      serializer.save()
+      return Response(serializer.data)
+    else:
+      return Response(serializer.errors,)
+    
+
+class EventDetail(APIView):
+  def get(self, request):
+    event = Event.objects.get(id=request.data['id'])
+    serializer = EventSerializer(event, context={'request': request})
+    return Response(serializer.data)
