@@ -21,8 +21,8 @@ class EventsList(APIView):
       return Response(serializer.errors,)
     
 
-class EventDetail(APIView):
-  def get(self, request):
-    event = Event.objects.get(id=request.data['id'])
-    serializer = EventSerializer(event, context={'request': request})
-    return Response(serializer.data)
+# class EventDetail(APIView):
+#   def get(self, request):
+#     event = Event.objects.get(id=request.data['id'])
+#     serializer = EventSerializer(event, context={'request': request})
+#     return Response(serializer.data)
