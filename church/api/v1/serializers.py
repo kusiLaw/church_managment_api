@@ -4,6 +4,19 @@ from church.models import User, Event
 from django.utils import timezone
 from datetime import datetime
 
+
+class UserSerializer(serializers.ModelSerializer):
+  id = serializers.IntegerField(read_only=True)
+  first_name = serializers.CharField()
+  last_name = serializers.EmailField()
+  email = serializers.EmailField()
+
+  class Meta:
+    model = User
+    fields = ('id', 'first_name', 'last_name', 'email')
+
+
+
 class EventSerializer(serializers.ModelSerializer):
   id = serializers.IntegerField(read_only=True)
   # days = serializers.SerializerMethodField(read_only=True)
@@ -13,7 +26,7 @@ class EventSerializer(serializers.ModelSerializer):
     fields = '__all__'
  
   # def get_days(self, obj):
-  #   # Todo: work on date left
+  #   # Todo: work on days left
   #   pass
     # return datetime(year=obj.start_date.year , month=obj.start_date.month, day=obj.start_date.day) - datetime.now()
 
@@ -23,5 +36,4 @@ class EventSerializer(serializers.ModelSerializer):
     date =  timezone.now()                         
     if datetime(data['end_date'].year, data['end_date'].month,data['end_date'].day ) < datetime(date.year, date.month, date.day, date.hour, date.minute):
       raise ParseError(detail="Sorry, can't process your request. This event is ended already", code=400)
-
     return data
