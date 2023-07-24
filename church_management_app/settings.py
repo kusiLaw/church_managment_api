@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'church',
-    'portal',
 ]
 
 # change auh to CustomUser
