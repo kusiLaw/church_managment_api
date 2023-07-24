@@ -4,16 +4,15 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics, viewsets, permissions
 from .permissions import IsOwnerOrReadOnly
-class  EventViewSet(viewsets.ModelViewSet):
-  """
-    Only add has permission to full control 
+class  EventViewSet(viewsets.ReadOnlyModelViewSet):
+  """ 
     All users can only read events
   """
   queryset = Event.objects.all()
   serializer_class = EventSerializer
 
 
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
+class UserViewSet(viewsets.ModelViewSet):
     """
     This viewset automatically provides `list` and `retrieve` actions.
 
@@ -21,5 +20,5 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
-     permission_classes = [permissions.IsAuthenticatedOrReadOnly,
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly]
