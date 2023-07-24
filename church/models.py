@@ -91,16 +91,6 @@ class Leadership(models.Model):
 
 
 class Event(models.Model):
-  title = models.CharField(max_length=100)
-  theme = models.CharField(max_length=100, null=True, blank=True , help_text='Theme of the event or church programs')
-  image =models.ImageField(max_length=100, upload_to= 'church/static/events/')
-  description = models.TextField()
-  start_date = models.DateField()
-  end_date = models.DateField()
-  created_at = models.DateField(auto_now_add=True)
-  location = models.CharField(max_length=100)
-  speaker = models.CharField(max_length=100)
-  guss_speaker = models.CharField(max_length=100)
   
   def __str__(self) -> str:
     return f'{self.title}  {self.speaker}  + {self.location} + {self.pk}'
