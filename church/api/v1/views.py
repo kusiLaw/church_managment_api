@@ -2,6 +2,12 @@ from church.models import User, Event
 from .serializers import  EventSerializer, UserSerializer
 from rest_framework import viewsets, permissions
 from .permissions import IsOwnerOrReadOnly
+from rest_framework.decorators import api_view
+from django.shortcuts import redirect
+
+@api_view(['GET'])
+def default_api_root(request):
+    return  redirect('api/v1/')
 
 class  EventViewSet(viewsets.ReadOnlyModelViewSet):
   """ 
