@@ -4,6 +4,9 @@ from rest_framework import viewsets, permissions
 from .permissions import IsOwnerOrReadOnly
 from rest_framework.decorators import api_view
 from django.shortcuts import redirect
+from .custom_viewsets import ListRetrieveUpdateViewSets
+
+
 
 @api_view(['GET'])
 def default_api_root(request):
@@ -17,7 +20,7 @@ class  EventViewSet(viewsets.ReadOnlyModelViewSet):
   serializer_class = EventSerializer
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(ListRetrieveUpdateViewSets):
     """
     viewsets combines list and details into a single viewset
     """
