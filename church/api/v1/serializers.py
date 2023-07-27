@@ -6,11 +6,6 @@ from datetime import datetime
 
 
 class UserSerializer(serializers.ModelSerializer):
-  id = serializers.IntegerField(read_only=True)
-  first_name = serializers.CharField()
-  last_name = serializers.EmailField()
-  email = serializers.EmailField()
-
   class Meta:
     model = User
     fields = ('id', 'first_name', 'last_name', 'email')
@@ -18,9 +13,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class EventSerializer(serializers.ModelSerializer):
-  id = serializers.IntegerField(read_only=True)
-  # days = serializers.SerializerMethodField(read_only=True)
-
   class Meta:
     model = Event
     fields = '__all__'

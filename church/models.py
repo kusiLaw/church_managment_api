@@ -4,21 +4,10 @@ from .manager import CustomUserManager
 from django.utils import timezone
 from datetime import datetime
 from django.utils import timezone
-
+from church.helpers.models import Common
 # Create your models here.
 
-class Common(models.Model):
-  name = models.CharField(max_length=64, unique= True)
-  
-  class Meta:
-    abstract = True
-    ordering = ['name']
-    indexes = [
-      models.Index(fields=['name'])
-    ]
 
-  def __str__(self) -> str:
-    return self.name
 
 class User(AbstractUser):
   email = models.EmailField(unique=True)
