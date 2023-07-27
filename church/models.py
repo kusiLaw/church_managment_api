@@ -5,25 +5,11 @@ from django.utils import timezone
 from datetime import datetime
 from django.utils import timezone
 from church.helpers.models import Common
+from authentication.models import User
 # Create your models here.
 
 
 
-class User(AbstractUser):
-  email = models.EmailField(unique=True)
-  first_name = models.CharField(max_length=32, null=False, blank=False)
-  last_name = models.CharField(max_length=32, null=False, blank=False)
-
-  class Meta:
-        db_table = 'auth_user'
-
-  @property
-  def full_name(self):
-    return f'{self.first_name} {self.last_name}'
-
-
-def profile_path(self, filename):
-  return f'church/static/profile/{self.user.username}/{filename}'
 
 class Membership(models.Model):
   user = models.OneToOneField(User, on_delete=models.CASCADE)
