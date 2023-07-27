@@ -1,14 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-from .manager import CustomUserManager
 from django.utils import timezone
 from datetime import datetime
 from django.utils import timezone
 from church.helpers.models import Common
 from authentication.models import User
-# Create your models here.
-
-
+from church.helpers import Common, profile_path
 
 
 class Membership(models.Model):
@@ -63,7 +59,6 @@ class Leadership(models.Model):
   department = models.ForeignKey(Department, on_delete=models.CASCADE)
   start_date = models.DateField()
   end_date = models.DateField()
-
 
 class Event(models.Model):
   title = models.CharField(max_length=100)

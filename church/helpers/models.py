@@ -11,3 +11,11 @@ class Common(models.Model):
 
   def __str__(self) -> str:
     return NotImplemented
+  
+
+def profile_path(name, filename):
+  return f'church/static/profile/{name}/{filename}'
+
+
+
+__all__ = ['Common', 'profile_path']
