@@ -1,4 +1,5 @@
-from church.models import User, Event
+from church.models import Event
+from authentication.models import User
 from .serializers import  EventSerializer, UserSerializer
 from rest_framework import viewsets, permissions
 from .permissions import IsOwnerOrReadOnly

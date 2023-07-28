@@ -39,11 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'authentication',
     'church',
 ]
 
 # change auh to CustomUser
-AUTH_USER_MODEL = "church.User"
+AUTH_USER_MODEL ='authentication.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
