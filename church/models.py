@@ -2,9 +2,8 @@ from django.db import models
 from django.utils import timezone
 from datetime import datetime
 from django.utils import timezone
-from church.helpers.models import Common
 from authentication.models import User
-from church.helpers import Common, profile_path
+from church.helpers import Common
 
 
 class Membership(models.Model):
@@ -15,9 +14,7 @@ class Membership(models.Model):
   address_line = models.CharField(max_length=25)
   date_baptized = models.DateField(blank= True, null=True, help_text='Date Object. Helps to determined if a user is \
                                     considered as member of the church ')
-  image = models.ImageField(max_length=100, 
-                  upload_to= profile_path,
-                  null=True, blank= True )
+
 
   def __str__(self) -> str:
     return f'{self.user.first_name}  {self.user.last_name}'

@@ -4,6 +4,10 @@ from django.utils.translation import gettext_lazy as _
 from authentication.manager import CustomUserManager
 from django.utils import timezone
 # Create your models here.
+
+def profile_image_path(caller, filename=None):
+     return f'./static/profile/{caller.first_name }_{caller.last_name}/{filename}'
+   
 class User(AbstractUser):
     """
       overwrite some AbstractUser properties and replace username with email and add additional fields.
@@ -17,6 +21,9 @@ class User(AbstractUser):
                               help_text="Email is required" , max_length=150,
                               error_messages={ "unique": _("A user with that username already exists."),},
                               )
+    image = models.ImageField(max_length=100, 
+                  upload_to= profile_image_path,
+                  null=True, blank= True )
 
     email_verified = models.BooleanField(
         _("email_verified"),
