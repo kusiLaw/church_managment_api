@@ -45,7 +45,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ["first_name", "last_name"]
 
     class Meta: 
-      ordering = ['-created_at',]
+      ordering = ['-date_joined',]
 
 
     @property
