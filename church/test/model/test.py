@@ -14,7 +14,7 @@ def create_user(username = 'law', password ='Test@password' ,
                 first_name = 'lawrence', last_name='kusi', email='test@gmail.com'):
   
   User = get_user_model() # return active user model or could import directly from ch.model  
-  user = User.objects.create(username = username, password = password, 
+  user = User.objects.create( password = password, 
                              first_name = first_name , last_name = last_name, email= email)
   return user
 
